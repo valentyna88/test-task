@@ -17,18 +17,9 @@
 }
 
 body {
-  display: flex;
-  flex-direction: column;
   min-width: 100vw;
   min-height: 100vh;
   margin: 0;
-}
-
-main {
-  flex-grow: 1;
-}
-main:has(.back-link) {
-  text-align: center;
 }
 
 h1,
@@ -56,12 +47,18 @@ a {
   text-decoration: none;
 }
 
+input {
+  outline: none;
+}
+
 button {
   cursor: pointer;
 }
 
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+#textDisplay {
+  width: 400px;
+  min-height: 40px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 20px;
 }
