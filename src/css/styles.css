@@ -69,7 +69,12 @@ button {
   padding: 5px;
   font-size: 18px;
   cursor: pointer;
+  user-select: none;
 }
-.char:hover {
-  background-color: #f0f0f0;
+
+.selection-box {
+  position: absolute;
+  border: 1px dashed blue;
+  background: rgba(0, 0, 255, 0.2);
+  pointer-events: none;
 }
