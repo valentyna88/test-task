@@ -1,7 +1,6 @@
 body {
   font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
+  margin: 20px;
   background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
   color: #333;
   display: flex;
@@ -11,12 +10,15 @@ body {
   justify-content: center;
 }
 
+#form-container {
+  margin-bottom: 20px;
+}
+
 input {
   padding: 10px;
   font-size: 16px;
   border: 2px solid #87cefa;
   border-radius: 5px;
-  margin-right: 10px;
 }
 
 button {
@@ -27,8 +29,6 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s;
 }
 
 button:hover {
@@ -37,47 +37,32 @@ button:hover {
 
 #textDisplay {
   width: 80%;
-  margin-top: 20px;
+  min-height: 100px;
   padding: 10px;
   border: 2px dashed #87cefa;
-  background-color: #fff;
-  border-radius: 10px;
+  background-color: white;
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: flex-start;
 }
 
 .char {
+  padding: 5px;
   margin: 5px;
-  padding: 10px;
-  font-size: 18px;
-  background-color: #f0f8ff;
-  border: 2px solid #4682b4;
-  border-radius: 5px;
+  border: 1px solid #aaa;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.2s;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.5s ease;
+  user-select: none;
+  position: relative;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.char.highlight {
+  background-color: yellow;
 }
 
-.char:hover {
-  transform: scale(1.1);
-  background-color: #add8e6;
-}
-
-.highlight {
-  background-color: #ffe4e1;
-  border-color: #ff7f50;
+.selection-box {
+  position: absolute;
+  border: 1px dashed #000;
+  background-color: rgba(0, 0, 255, 0.2);
+  pointer-events: none;
 }
