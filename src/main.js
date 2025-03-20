@@ -25,8 +25,7 @@ function createCharacterSpan(char) {
 
   span.addEventListener('click', handleHighlight);
   span.addEventListener('dragstart', handleDragStart);
-  span.addEventListener('dragover', e => e.preventDefault());
-  span.addEventListener('drop', handleDrop);
+  span.addEventListener('dragend', handleDragEnd);
 
   return span;
 }
@@ -37,49 +36,29 @@ function handleHighlight(e) {
   }
 }
 
+let draggedChars = [];
 function handleDragStart(e) {
-  const selectedChars = getSelectedCharacters(e.target);
-  const indices = selectedChars.map(char =>
-    [...textDisplay.children].indexOf(char)
-  );
-  e.dataTransfer.setData('text/plain', JSON.stringify(indices));
+  draggedChars = getSelectedCharacters(e.target);
+}
+
+function handleDragEnd(e) {
+  const mouseX = e.pageX;
+  const mouseY = e.pageY;
+
+  draggedChars.forEach((char, index) => {
+    char.style.position = 'absolute';
+    char.style.left = `${mouseX + index * 20}px`;
+    char.style.top = `${mouseY}px`;
+    document.body.appendChild(char);
+    char.classList.remove('highlight');
+  });
+
+  draggedChars = [];
 }
 
 function getSelectedCharacters(span) {
   const selected = [...document.querySelectorAll('.highlight')];
   return span.classList.contains('highlight') ? selected : [span];
-}
-
-function handleDrop(e) {
-  e.preventDefault();
-
-  const droppedIndices = JSON.parse(e.dataTransfer.getData('text/plain'));
-  const targetIndex = [...textDisplay.children].indexOf(e.target);
-
-  if (targetIndex === -1) return;
-
-  const spans = [...textDisplay.children];
-  const draggedChars = droppedIndices.map(i => spans[i].textContent);
-
-  droppedIndices.sort((a, b) => b - a).forEach(i => spans[i].remove());
-
-  draggedChars.forEach((char, i) => {
-    const newSpan = createCharacterSpan(char);
-    if (i === 0) {
-      e.target.insertAdjacentElement('beforebegin', newSpan);
-    } else {
-      textDisplay.insertBefore(newSpan, e.target);
-    }
-  });
-
-  if (droppedIndices[0] < targetIndex) {
-    const targetSpan = createCharacterSpan(e.target.textContent);
-    e.target.remove();
-    textDisplay.insertBefore(
-      targetSpan,
-      textDisplay.children[droppedIndices[0]]
-    );
-  }
 }
 
 textDisplay.addEventListener('mousedown', e => {
@@ -95,9 +74,7 @@ textDisplay.addEventListener('mousedown', e => {
 
 function createSelectionBox() {
   const box = document.createElement('div');
-  box.style.position = 'absolute';
-  box.style.border = '1px dashed #000';
-  box.style.backgroundColor = 'rgba(0, 0, 255, 0.2)';
+  box.classList.add('selection-box');
   box.style.left = `${startX}px`;
   box.style.top = `${startY}px`;
   return box;
